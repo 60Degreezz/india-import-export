@@ -1,0 +1,14 @@
+name: india-import-export
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.9
+  - pip
+  - pip:
+    - BeautifulSoup4==4.12.2
+    - pandas==2.0.1
+    - requests==2.30.0
+    - idna==3.2
+    - certifi==2023.5.7
+    - tqdm==4.65.0
