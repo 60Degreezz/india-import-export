@@ -8,7 +8,7 @@ URL = "https://tradestat.commerce.gov.in/meidb/brc.asp?ie=i"
 DATABASE_FILE = "data.csv"
 
 # set the year range for data
-START_YEAR = 2022
+START_YEAR = 2020
 END_YEAR = 2022
 
 # set the month range for data
@@ -88,19 +88,18 @@ def formatData(year: int, month: int, data_df: pd.DataFrame, formatted_df: pd.Da
         dataframe -- formatted dataframe
     """
     if data_df.empty:
-        return
-    if formatted_df.empty:
-        formatted_df = data_df[['HSCode', 'Commodity', 'Val6']]
+        return formatted_df
+    if formatted_df.empty :
+        formatted_df = data_df[['HSCode', 'Commodity', 'Val6']].copy()
         # convert the Val6 column from string to float format
         formatted_df['Val6'] = formatted_df['Val6'].str.replace(',', '')
         formatted_df['Val6'] = formatted_df['Val6'].astype(float)
         formatted_df.rename(columns={'Val6': str(year) + '-' + str(month)}, inplace=True)
-        return formatted_df
     else:
         # conver the Val6 column to float format
         data_df['Val6'] = data_df['Val6'].str.replace(',', '')
         data_df['Val6'] = data_df['Val6'].astype(float)
-        formatted_df[str(year) + '-' + str(month)] = data_df['Val6']
+        formatted_df[str(year) + '-' + str(month)] = data_df['Val6'].copy()
     return formatted_df
 
 
@@ -114,8 +113,8 @@ def main():
             data_df = getTableData(year,month)
             formatted_df = formatData(year, month, data_df, formatted_df)
 
-        # save the data to a csv file
-        formatted_df.to_excel(DATABASE_FILE)
+    # save the data to a csv file
+    formatted_df.to_csv(DATABASE_FILE)
 
 if __name__ == "__main__":
     main()
